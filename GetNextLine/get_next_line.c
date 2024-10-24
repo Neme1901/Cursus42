@@ -6,7 +6,7 @@
 /*   By: dbarrios <dbarrios@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/19 14:02:01 by dbarrios          #+#    #+#             */
-/*   Updated: 2024/10/24 11:15:17 by dbarrios         ###   ########.fr       */
+/*   Updated: 2024/10/24 11:54:54 by dbarrios         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,16 +28,18 @@ char	*get_next_line(int fd)
 		free(prev_c);
 		free(buffer);
 		prev_c = NULL;
-		buffer = NULL;
 		return (NULL);
 	}
 	if (!buffer)
 		return (NULL);
 	line = fill_line_bff(fd, prev_c, buffer);
 	free(buffer);
-	buffer = NULL;
 	if (!line)
+	{
+		free(prev_c);
+		prev_c = NULL;
 		return (NULL);
+	}
 	prev_c = set_line(line);
 	return (line);
 }
@@ -53,7 +55,7 @@ static char	*set_line(char *line_bff)
 	if (line_bff[i] == 0 || line_bff[1] == 0)
 		return (NULL);
 	prev_c = ft_substr(line_bff, i + 1, ft_strlen(line_bff) - i);
-	if (*prev_c == 0)
+	if (!prev_c || *prev_c == 0)
 	{
 		free(prev_c);
 		prev_c = (NULL);
@@ -78,10 +80,11 @@ static char	*fill_line_bff(int fd, char *prev_c, char *buffer)
 		buffer[b_reads] = 0;
 		if (!prev_c)
 			prev_c = ft_strdup("");
-		tmp = prev_c;
-		prev_c = ft_strjoin(tmp, buffer);
-		free(tmp);
-		tmp = (NULL);
+		tmp = ft_strjoin(prev_c, buffer);
+		free(prev_c);
+		prev_c = tmp;
+		if (!prev_c)
+			return (NULL);
 		if (ft_strchr(buffer, '\n'))
 			break ;
 	}
@@ -101,7 +104,5 @@ static char	*ft_strchr(char *s, int c)
 			return ((char *)&s[i]);
 		i++;
 	}
-	if (s[i] == cc)
-		return ((char *)&s[i]);
 	return (NULL);
 }
