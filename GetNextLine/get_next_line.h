@@ -6,7 +6,7 @@
 /*   By: dbarrios <dbarrios@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/21 11:17:38 by dbarrios          #+#    #+#             */
-/*   Updated: 2024/10/23 20:53:50 by dbarrios         ###   ########.fr       */
+/*   Updated: 2024/10/24 06:59:35 by dbarrios         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,14 @@
 #  define BUFFER_SIZE 1024
 # endif
 # include <fcntl.h>
-# include <stdio.h>
+# include <stdlib.h>
 # include <unistd.h>
 
-#endif GET_NEXT_LINE_H
+char	*get_next_line(int fd);
+char	*ft_strdup(char *s);
+size_t	ft_strlen(char *s);
+char	*ft_substr(char *s, unsigned int start, size_t len);
+char	*ft_strjoin(char *s1, char *s2);
+void	fill_str(char *res, char *s1, char *s2);
+
+#endif
