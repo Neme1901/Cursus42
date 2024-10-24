@@ -6,7 +6,7 @@
 /*   By: dbarrios <dbarrios@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/19 14:02:01 by dbarrios          #+#    #+#             */
-/*   Updated: 2024/10/24 10:11:56 by dbarrios         ###   ########.fr       */
+/*   Updated: 2024/10/24 11:15:17 by dbarrios         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,23 +22,24 @@ char	*get_next_line(int fd)
 	char		*line;
 	char		*buffer;
 
-	buffer = malloc((BUFFER_SIZE + 1) * sizeof(char));
-	if (!buffer)
-		return (free(buffer), NULL);
+	buffer = (char *)malloc((BUFFER_SIZE + 1) * sizeof(char));
 	if (fd < 0 || BUFFER_SIZE <= 0 || read(fd, 0, 0) < 0)
+	{
 		free(prev_c);
-	free(buffer);
-	prev_c = NULL;
-	buffer = NULL;
-	return (NULL);
+		free(buffer);
+		prev_c = NULL;
+		buffer = NULL;
+		return (NULL);
+	}
+	if (!buffer)
+		return (NULL);
 	line = fill_line_bff(fd, prev_c, buffer);
-	return (free(buffer), NULL);
+	free(buffer);
+	buffer = NULL;
 	if (!line)
 		return (NULL);
 	prev_c = set_line(line);
 	return (line);
-	if (buffer)
-		free(buffer);
 }
 
 static char	*set_line(char *line_bff)
