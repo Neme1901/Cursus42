@@ -6,13 +6,12 @@
 /*   By: dbarrios <dbarrios@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/19 14:02:01 by dbarrios          #+#    #+#             */
-/*   Updated: 2024/10/24 08:44:09 by dbarrios         ###   ########.fr       */
+/*   Updated: 2024/10/24 09:51:11 by dbarrios         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-//(free(*),*NULL);
 char	*get_next_line(int fd)
 {
 	static char	*prev_c;
@@ -27,10 +26,21 @@ char	*get_next_line(int fd)
 
 static char	*set_line(char *line_bff)
 {
-	char	*left_c;
+	char	*prev_c;
 	ssize_t	i;
 
 	i = 0;
+	while (line_bff[i] != '\n' && line_bff[i] != '\0')
+		i++;
+	if (line_bff[i] == 0 || line_bff[1] == 0)
+		return (NULL);
+	prev_c = ft_substr(line_bff, i + 1, ft_strlen(line_bff) - i);
+	if (*prev_c == 0)
+	{
+		free(prev_c), NULL;
+	}
+	line_bff[i + 1] = 0;
+	return (prev_c);
 }
 
 static char	*fill_line_bff(int fd, char *prev_c, char *buffer)
@@ -51,8 +61,7 @@ static char	*fill_line_bff(int fd, char *prev_c, char *buffer)
 			prev_c = ft_strdup("");
 		tmp = prev_c;
 		prev_c = ft_strjoin(tmp, buffer);
-		free(tmp);
-		tmp = NULL;
+		free(tmp), NULL;
 		if (ft_strchr(buffer, '\n'))
 			break ;
 	}
