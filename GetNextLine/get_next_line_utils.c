@@ -6,7 +6,7 @@
 /*   By: dbarrios <dbarrios@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/24 06:48:56 by dbarrios          #+#    #+#             */
-/*   Updated: 2024/10/24 06:58:49 by dbarrios         ###   ########.fr       */
+/*   Updated: 2024/10/24 07:40:03 by dbarrios         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,20 +66,15 @@ char	*ft_substr(char *s, unsigned int start, size_t len)
 
 char	*ft_strjoin(char *s1, char *s2)
 {
-	char	*res;
-
-	res = malloc((ft_strlen(s1) + ft_strlen(s2) + 1) * sizeof(char));
-	if (!res)
-		return (NULL);
-	fill_str(res, s1, s2);
-	return (res);
-}
-
-void	fill_str(char *res, char *s1, char *s2)
-{
+	char			*res;
 	unsigned int	i;
 	unsigned int	j;
 
+	if (!s1 || !s2)
+		return (NULL);
+	res = malloc((ft_strlen(s1) + ft_strlen(s2) + 1) * sizeof(char));
+	if (!res)
+		return (NULL);
 	i = 0;
 	j = 0;
 	while (s1[j])
@@ -88,4 +83,5 @@ void	fill_str(char *res, char *s1, char *s2)
 	while (s2[j])
 		res[i++] = s2[j++];
 	res[i] = '\0';
+	return (res);
 }
